@@ -1,0 +1,80 @@
+:root{
+    --very-happy: rgb(0, 128, 0);
+    --happy: rgb(22, 236, 22);
+    --normal: rgb(233, 233, 10);
+    --sad: rgb(235, 159, 17);
+    --very-sad: rgb(216, 23, 23);
+    --main-color: rgb(27, 193, 222);
+    --secondary-color: rgb(93, 222, 245);
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-color);
+    background-image: url("https://www.transparenttextures.com/patterns/subtle-surface.png");
+    color: white;
+    font-family: 'Open Sans', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+i.fa-solid{
+    border: 2px solid rgba(255, 255, 255, 0.424);
+    border-radius: 50%;
+    background-color: black;
+}
+
+i.fa-solid:hover{
+    background-color: white;
+    scale: 1.2;
+}
+
+i.fa-face-grin-wide {
+    color: var(--very-happy);
+}
+
+i.fa-face-smile {
+    color: var(--happy);
+}   
+
+i.fa-face-meh{
+    color: var(--normal);
+}
+
+i.fa-face-frown{
+    color: var(--sad);
+}
+
+i.fa-face-sad-tear{
+    color: var(--very-sad);
+}
+
+.container{
+    text-align: center;
+}
+
+.calendar{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+}
+
+.month{
+    border: 2px solid black;
+}
+
+.week{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 3px;
+}
+
+span {
+    display: block;
+    border: 2px solid white;
+    border-radius: 100%;
+    height: 100%; 
+}
