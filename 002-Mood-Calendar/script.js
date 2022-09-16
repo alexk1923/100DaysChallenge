@@ -2,25 +2,18 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
                 "September", "October", "November", "December"];
 const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thurdsay", "Friday", "Saturday"];
 
-const d = new Date(2022, 0, 0);
-console.log(d.getDate());
+const currYear = new Date().getFullYear();
 
 function addCalendar() {
     const noDaysForMonths = []
     for (let idx in months) {
-        noDaysForMonths.push(new Date(2022, (Number(idx) + 1), 0).getDate());
+        noDaysForMonths.push(new Date(currYear, (Number(idx) + 1), 0).getDate());
     }
-
-    
-    console.log(noDaysForMonths);
-
-
     let datesString = [];
 
     for(let i = 0; i < months.length; i++) {
         let days = "";
-        const firstWeekDay = new Date(2022, i, 1).getDay();
-        console.log("Prima zi a Lunii" + firstWeekDay);
+        const firstWeekDay = new Date(currYear, i, 1).getDay();
 
         if(firstWeekDay != 0) {
             for(let k = 0; k < firstWeekDay; k++) {
@@ -29,12 +22,10 @@ function addCalendar() {
         }
 
         for(j = 0; j < noDaysForMonths[i]; j++) {
-            days += `<span>${j + 1}</span>`;
+            days += `<div class="grid-item"><span class="valid">${j + 1}</span></div>`;
         }
         datesString.push(days);
     }
-
-    console.log(datesString[0]);
 
     let monthWeekElem = 
     months.map( month => `
@@ -44,19 +35,38 @@ function addCalendar() {
     ${weekDays.map(weekDay => 
         `<p>${weekDay}</p>`).join("")}
     `);
-    
-    console.log(monthWeekElem.length);
-    console.log(monthWeekElem);
+
 
     for(let i = 0; i < monthWeekElem.length; i++) {
-        console.log(i);
         monthWeekElem[i] += datesString[i];
-        monthWeekElem[i] += "</div></div>";
+        monthWeekElem[i] += "</div></div></div>";
     }
     
-    console.log(monthWeekElem.join(""));
     document.querySelector(".calendar").innerHTML = monthWeekElem.join("");
 }
 
 addCalendar();
 
+let currentMood = null;
+
+document.querySelectorAll(".moods i").forEach(mood => {
+    mood.addEventListener("click", (e) => {
+        
+        const currentSelected = document.querySelector("i.selected");
+        if(currentSelected) {
+            currentSelected.classList.remove("selected")
+        }
+        mood.classList.add("selected");
+        currentMood = getComputedStyle(mood).getPropertyValue("color")
+    })
+})
+
+document.querySelectorAll("span.valid").forEach(date => {
+    date.addEventListener("click", (e) => {
+        if(currentMood) {
+            date.style.backgroundColor = currentMood;
+        } else {
+            window.alert("Choose a mood first!")
+        }
+    })
+})
