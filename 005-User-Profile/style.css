@@ -1,9 +1,15 @@
-@import url('http://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+:root{
+    --primary-blue: rgba(60, 74, 231, 1);
+}
 
 body{
     margin: 0;
-    font-size: 1vw;
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;    
+    font-size: clamp(1vh, 1vw, 6vw);
+    font-family: 'Source Sans Pro';
+    overflow: hidden;
 }
 
 *{
@@ -15,34 +21,83 @@ body{
     height: 100vh;
     justify-content: center;
     align-items: center;
+    background-image: url(./img/coding-bg.jpg);
+    background-repeat: no-repeat;
+    animation: scrollBackground 15s alternate infinite;
+}
+
+@keyframes scrollBackground {
+    0% {
+        background-position: left;
+    }
+
+    100%{
+        background-position: right;
+    }
 }
 
 .card{
     display: flex;
     flex-direction: column;
     text-align: center;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.85);
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     overflow: hidden;
+    backdrop-filter: blur(21px);
 }
 
 .card{
-    transition: all 1s;
+    
+    color: var(--primary-blue);
 }
 
-.card:hover{
+.card img:hover{
     scale: 1.1;
     cursor: pointer;
+
 }
 
 .card p{
     margin: 0;
+    color: black
+}
+
+.card .skills p{
+    color: black;
+}
+
+.card img{
+    border-bottom: 3px solid var(--primary-blue);
+    transition: all 1s ease-in-out;
 }
 
 .skills{
     text-align: left;
     margin-left: 5%;
 }
+
+.skills .progress{
+    display: inline-block;
+    padding: 3px;
+    background-color: var(--primary-blue);
+}
+
+.skills .progress.html{
+    width: 75%;
+}
+
+.skills .progress.css{
+    width: 65%;
+}
+
+.skills .progress.js{
+    width: 50%;
+}
+
+.skills .progress.java{
+    width: 40%;
+}
+
 
 .social-media{
     display: flex;
@@ -53,6 +108,11 @@ body{
 .social-media a{
     text-decoration: none;
     color: black;
+}
+
+.social-media a:hover{
+    text-decoration: none;
+    color: var(--primary-blue);
 }
 
 .social-media > *{
