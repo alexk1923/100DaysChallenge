@@ -14,8 +14,11 @@ body{
 }
 
 nav{
-    height: 10vh;
+    min-height: 10vh;
+    z-index: 1;
 }
+
+
 
 .presentation-container{
     width: 100%;
@@ -29,7 +32,6 @@ nav{
     object-fit: cover;
     width: 100%;
     height: 100%;
-    object-position: left center;
     object-position: left center;
     animation: pres-img 12s infinite 3s alternate;
 }
@@ -46,7 +48,7 @@ nav{
     width: 50%;
     min-height: 50%;
     /* background-color: var(--ps5-blue); */
-    /* color: var(--ps5-blue); */
+    /* color: var(--ps5-blue); */ 
     border-top: 2px solid var(--ps5-blue);
     border-bottom: 2px solid var(--ps5-blue);
     padding: .8em;
@@ -56,7 +58,6 @@ nav{
 }
 
 .title{
-    /* align-self: flex-start; */
     text-align: center;
     justify-self: flex-end;
     flex: 1;
@@ -79,6 +80,22 @@ form{
     font-size: 1vw;
 }
 
+form > *{
+    margin: .5em;
+}
+
+form input{
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.7);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+form input:focus-visible{
+    color: var(--ps5-blue);
+    border-bottom: 1px solid var(--ps5-blue);
+    outline: none;
+}
+
 .signup h2{
     font-size: clamp(1.5vh, 2vw, 3rem);
     font-weight: bold;
@@ -86,12 +103,7 @@ form{
 
 .signup p{
     font-size: clamp(1vh, 1vw, 2rem);
-    color: var(--ps5-blue);
-}
-
-
-form > *{
-    margin: .5em;
+    color: rgba(0,0,0,0.7);
 }
 
 
