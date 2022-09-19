@@ -1,6 +1,6 @@
 # 100 Days Challenge
 
-![Challenge Photo]("100-days-100-projects.png")
+![Challenge Photo](./100-days-100-projects.png);
 
 ## Info
 
