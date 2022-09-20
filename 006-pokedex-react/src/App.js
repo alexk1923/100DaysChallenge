@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Pokemon from './Pokemon';
+import Search from './Search';
 import { v4 as uuid } from 'uuid';
 
 function App() {
 
   const [pokemons, setPokemons] = useState([]);
+  const [readMorePokemon, setReadMorePokemon] = useState("");
 
+  function inputFilter(filterName) {
+    setPokemons(prevPokemons =>
+      prevPokemons.filter(pokemon => pokemon.name.includes(filterName)));
+  }
 
   async function fetchAPI() {
     let url = "https://pokeapi.co/api/v2/pokemon"
-    const limit = 100;
+    const limit = 20;
     const offset = 0;
     url += `?limit=${limit}&offset=${offset}`
     const res = await fetch(url);
@@ -22,24 +28,35 @@ function App() {
     const data = await res.json();
 
     setPokemons(prevPokemons => {
-      return [...prevPokemons, ...data.results];
+      return [...data.results];
     })
-
-    console.log(pokemons);
   }
 
+  useEffect( () => {
+    console.log(
+      "Use effect"
+    );
+    fetchAPI();
+  }, [])
+
+  function getContent() {
+    
+    if(readMorePokemon === "") {
+      return pokemons.map (pokemon => 
+      <Pokemon key={uuid()} name={pokemon.name} url={pokemon.url}/>) 
+    } else {
+      const [foundPokemon] = (pokemons.filter(pokemon => pokemon.name == readMorePokemon));
+      return <Pokemon key={uuid()} name={foundPokemon.name} url={foundPokemon.url} />
+    }
+
+  }
 
   return (
     <div className="App">
-      <button onClick={fetchAPI}>Click here to fetch data</button>
-      <div className='pokemon-container'>
-        {pokemons.map
-          (pokemon => {
-            console.log(pokemon.name);
-            return <Pokemon key={uuid()} name={pokemon.name} url={pokemon.url} />
-          }
-          )}
-      </div>
+        <Search inputFilter={inputFilter} />
+        <div className='pokemon-container'>
+        {getContent()}
+        </div> 
     </div>
   );
 }

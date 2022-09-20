@@ -14,7 +14,6 @@ export default function Pokemon(props) {
         }
 
         const data = await res.json();
-        console.log(data);
         setPokeImg(data.sprites.front_default)
     }
 
@@ -27,6 +26,7 @@ export default function Pokemon(props) {
     <div className='pokemon-card'>
         <img src={pokeImg}></img>
         <p>{(props.name)}</p>
+        <button id="read-more-btn">Read more</button>
     </div>
   )
 }

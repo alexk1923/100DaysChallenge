@@ -1,3 +1,7 @@
+:root{
+  --primary-color: rgb(246,221,130);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -8,8 +12,7 @@ body {
   background: url(./img/pokemon-bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center right;
-  height: 100vh;
+  height: 100vh; 
 }
 
 code {
@@ -25,9 +28,18 @@ code {
 }
 
 .pokemon-card{
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.9);
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  padding: 1em;
+  gap: .5em;
+  padding: .5em;
+  display: flex;
+  flex-direction: column;
+  transition: all .2s ease-in;
+}
+
+.pokemon-card button:hover{
+  cursor: pointer;
+  scale: 1.1
 }
 
 .pokemon-card p{
@@ -38,3 +50,61 @@ code {
 .pokemon-card p::first-letter{
   text-transform: capitalize;
 }
+
+button#read-more-btn{
+  background-color: var(--primary-color);
+  padding: .4em;
+  /* border-radius: 1000%; */
+  font-weight: 600;
+}
+
+.search-container{
+  text-align: center;
+  height: 10vh;
+  max-height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+}
+
+.search-container img{
+  height: 70%;
+  padding: 1em;
+}
+
+.search-container input{
+  height: 70%;
+  width: 50%;
+  font-size: clamp(1vw, 1.5rem, 3rem);
+  text-overflow: ellipsis;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.rotateForward {
+  animation: rotate-f-keyframes 1s;
+ }
+
+.rotateBackwards {
+  animation: rotate-b-keyframes 1s;
+}
+ 
+ @keyframes rotate-f-keyframes {
+  from {
+    transform: rotate(0deg);
+  }
+ 
+  to {
+   transform: rotate(360deg);
+  }
+ }
+
+ @keyframes rotate-b-keyframes {
+  from {
+    transform: rotate(0deg);
+  }
+ 
+  to {
+   transform: rotate(-360deg);
+  }
+ }
