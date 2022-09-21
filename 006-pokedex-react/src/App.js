@@ -39,23 +39,27 @@ function App() {
     fetchAPI();
   }, [])
 
-  function getContent() {
-    
-    if(readMorePokemon === "") {
-      return pokemons.map (pokemon => 
-      <Pokemon key={uuid()} name={pokemon.name} url={pokemon.url}/>) 
-    } else {
-      const [foundPokemon] = (pokemons.filter(pokemon => pokemon.name == readMorePokemon));
-      return <Pokemon key={uuid()} name={foundPokemon.name} url={foundPokemon.url} />
-    }
 
+
+  function getContent(readMoreName) {
+    const [foundPokemon] = pokemons.filter(pokemon => pokemon.name === readMoreName);
+    const x = [foundPokemon];
+    setPokemons([foundPokemon]);
   }
 
   return (
     <div className="App">
         <Search inputFilter={inputFilter} />
         <div className='pokemon-container'>
-        {getContent()}
+        {
+          pokemons.length != 1 ?
+          pokemons.map (pokemon => 
+        <Pokemon key={uuid()} name={pokemon.name} url={pokemon.url} readMore={getContent}
+          detailed={false}/>)
+          :
+         <Pokemon key={uuid()} name={pokemons[0].name} url={pokemons[0].url} readMore={getContent}
+          detailed={true}/> 
+        }
         </div> 
     </div>
   );

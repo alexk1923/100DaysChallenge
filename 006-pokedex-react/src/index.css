@@ -51,6 +51,14 @@ code {
   text-transform: capitalize;
 }
 
+.pokemon-detailed-card{
+  display: flex;
+  
+}
+
+.pokemon-detailed-card img{
+}
+
 button#read-more-btn{
   background-color: var(--primary-color);
   padding: .4em;
@@ -108,3 +116,4 @@ button#read-more-btn{
    transform: rotate(-360deg);
   }
  }
+
