@@ -1,68 +1,86 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import Pokemon from './Pokemon';
-import Search from './Search';
-import { v4 as uuid } from 'uuid';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Pokemon from "./Pokemon";
+import Search from "./Search";
+import PokemonList from "./PokemonList";
 
 function App() {
+	const [pokemons, setPokemons] = useState([]);
+	const [readMorePokemon, setReadMorePokemon] = useState("");
+	const [searchedPokemon, setSearchedPokemon] = useState("");
+	const [prevPokemonsURL, setPrevPokemonsURL] = useState(null);
+	const [nextPokemonsURL, setNextPokemonsURL] = useState(null);
+	const [currentPokemonsURL, setCurrentPokemonURL] = useState(
+		"https://pokeapi.co/api/v2/pokemon?limit=20&offset=0"
+	);
 
-  const [pokemons, setPokemons] = useState([]);
-  const [readMorePokemon, setReadMorePokemon] = useState("");
+	function inputFilter(filterName) {
+		// setPokemons(prevPokemons =>
+		//   prevPokemons.filter(pokemon => pokemon.name.includes(filterName)));
+		setSearchedPokemon(filterName);
+	}
 
-  function inputFilter(filterName) {
-    setPokemons(prevPokemons =>
-      prevPokemons.filter(pokemon => pokemon.name.includes(filterName)));
-  }
+	async function fetchAPI(url) {
+		const res = await fetch(url);
 
-  async function fetchAPI() {
-    let url = "https://pokeapi.co/api/v2/pokemon"
-    const limit = 20;
-    const offset = 0;
-    url += `?limit=${limit}&offset=${offset}`
-    const res = await fetch(url);
+		if (!res.ok) {
+			throw new Error("Error: " + res);
+		}
 
-    if (!res.ok) {
-      throw new Error("Error: " + res);
-    }
+		const data = await res.json();
+		console.log(data);
+		setPokemons((prevPokemons) => {
+			return [...data.results];
+		});
 
-    const data = await res.json();
+		setNextPokemonsURL(data.next);
+		setPrevPokemonsURL(data.previous);
+	}
 
-    setPokemons(prevPokemons => {
-      return [...data.results];
-    })
-  }
+	useEffect(() => {
+		console.log("Use effect app.ks");
+		fetchAPI(currentPokemonsURL);
+	}, [currentPokemonsURL]);
 
-  useEffect( () => {
-    console.log(
-      "Use effect"
-    );
-    fetchAPI();
-  }, [])
+	function showww() {
+		// console.log("searched: " + searchedPokemon);
+		// console.log(pokemons.filter(pokemon => searchedPokemon === "" ));
+	}
 
+	function getContent(readMoreName) {
+		const [foundPokemon] = pokemons.filter(
+			(pokemon) => pokemon.name === readMoreName
+		);
+		setPokemons([foundPokemon]);
+	}
 
+	function handlePrev() {
+		setCurrentPokemonURL(prevPokemonsURL);
+	}
 
-  function getContent(readMoreName) {
-    const [foundPokemon] = pokemons.filter(pokemon => pokemon.name === readMoreName);
-    const x = [foundPokemon];
-    setPokemons([foundPokemon]);
-  }
+	function handleNext() {
+		setCurrentPokemonURL(nextPokemonsURL);
+	}
 
-  return (
-    <div className="App">
-        <Search inputFilter={inputFilter} />
-        <div className='pokemon-container'>
-        {
-          pokemons.length != 1 ?
-          pokemons.map (pokemon => 
-        <Pokemon key={uuid()} name={pokemon.name} url={pokemon.url} readMore={getContent}
-          detailed={false}/>)
-          :
-         <Pokemon key={uuid()} name={pokemons[0].name} url={pokemons[0].url} readMore={getContent}
-          detailed={true}/> 
-        }
-        </div> 
-    </div>
-  );
+	return (
+		<div className='App'>
+			<Search inputFilter={inputFilter} />
+			<PokemonList pokemons={pokemons} searchedPokemon={searchedPokemon} />
+
+			<div className='navigation'>
+				{prevPokemonsURL !== null && (
+					<button type='button' onClick={handlePrev}>
+						<span className='nav-text'>PREV</span>
+					</button>
+				)}
+				{nextPokemonsURL != null && (
+					<button type='button' onClick={handleNext}>
+						<span className='nav-text'>NEXT</span>
+					</button>
+				)}
+			</div>
+		</div>
+	);
 }
 
 export default App;

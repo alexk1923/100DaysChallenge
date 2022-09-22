@@ -1,70 +1,109 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
-
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { v4 as uuid } from "uuid";
 export default function Pokemon(props) {
+	Pokemon.propTypes = {
+		name: PropTypes.string.isRequired,
+		url: PropTypes.string.isRequired,
+		searchedFilter: PropTypes.string.isRequired,
+		filterDetailed: PropTypes.func.isRequired,
+		detailedStats: PropTypes.shape({
+			id: PropTypes.number,
+			abilities: PropTypes.array,
+			height: PropTypes.number,
+			weight: PropTypes.number,
+			types: PropTypes.array,
+			img: PropTypes.string,
+		}),
+	};
 
-    const [pokeImg, setPokeImg] = useState('')
-    const [detailedStats, setDetailedStats] = useState({})
+	const [pokeImg, setPokeImg] = useState("");
+	const [showDetailed, setShowDetailed] = useState(false);
 
-    async function getPokeData() {
-        const res = await fetch(props.url);
-        if(!res.ok) {
-            throw new Error("Error: " + res);
-        }
+	useEffect(() => {
+		const controller = new AbortController();
+		const signal = controller.signal;
 
-        const data = await res.json();
+		(async () => {
+			console.log("Detailed stats din pokeData apelat initial: ");
+			console.log(props);
 
+			const res = await fetch(props.url, signal);
+			if (!res.ok) {
+				throw new Error("Error: " + res);
+			}
 
-        if(props.detailed) {
-            const newStats = {
-                id: data.id,
-                abilities: data.abilities,
-                height: data.height,
-                types: data.types,
-                img: data.sprites.other.home.front_default
-            }
-            setDetailedStats(newStats);
-            console.log(detailedStats);
-        }
-        
-        setPokeImg(data.sprites.front_default);
-        
-    }
+			const data = await res.json();
+			setPokeImg(data.sprites.front_default);
+			if (props.isDetailed) {
+				// console.log("dadada");
+				setShowDetailed(true);
+			}
+		})();
 
-    useEffect(() => {
-        getPokeData();
-    }, [])
-    
-    function handleReadMore() {
-        console.log(props.name);
-        props.readMore(props.name);
-    }
+		return () => controller.abort();
+	}, [showDetailed]);
 
-  return (
-    props.detailed ? 
+	function handleReadMore() {
+		props.filterDetailed(props.name);
+		console.log("Detailed dupa ce s-a apelat filterDetailed: ");
+		console.log(props.detailedStats);
+		setShowDetailed(true);
+		// setReadMore(true);
+	}
 
-    <div className='pokemon-detailed-card'>
-    <p>{2}</p>
-    <h1>{(props.name)}</h1>
-    <p></p>
-    <img src={pokeImg}></img>
+	function getHighlightedString() {
+		const matchIndex = props.name.indexOf(props.searchedFilter);
+		const beginNewName = props.name.slice(0, matchIndex);
+		const endNewName = props.name.slice(
+			matchIndex + props.searchedFilter.length,
+			props.name.length
+		);
+		return (
+			<p>
+				{beginNewName}
+				<span className='highlighted'>{props.searchedFilter}</span>
+				{endNewName}
+			</p>
+		);
+	}
 
-    </div>
-    :
+	return showDetailed ? (
+		<div className='pokemon-detailed-card'>
+			<div className='first-info'>
+				<div className='img-id'>
+					<p>{props.detailedStats.id}</p>
+					<img src={props.detailedStats.img} alt={props.name}></img>
+				</div>
+				<p>Types:</p>
+				<ul>
+					{props.detailedStats.types.map((elem) => (
+						<li key={uuid()}>{elem.type.name}</li>
+					))}
+				</ul>
+			</div>
 
-    <div className='pokemon-card'>
-        <img src={pokeImg}></img>
-        <p>{(props.name)}</p>
-        <button id="read-more-btn" onClick={handleReadMore}>Read more</button>
-    </div>
-    
-
-  )
-}
-
-Pokemon.propTypes = {
-    name: PropTypes.string,
-    url: PropTypes.string,
-    detailed: PropTypes.bool
+			<div className='second-info'>
+				<h1>{props.name}</h1>
+				{props.detailedStats.abilities.map((a) => (
+					<p key={uuid()}>{a.ability.name}</p>
+				))}
+				<p>Height: {props.detailedStats.height}</p>
+				<p>Weight: {props.detailedStats.weight}</p>
+			</div>
+		</div>
+	) : (
+		<div className='pokemon-card'>
+			<img src={pokeImg} alt={props.name}></img>
+			{props.searchedFilter === "" ? (
+				<p>{props.name}</p>
+			) : (
+				getHighlightedString()
+			)}
+			<button id='read-more-btn' onClick={handleReadMore}>
+				Read more
+			</button>
+		</div>
+	);
 }
