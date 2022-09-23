@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap");
+
+:root {
+	--white: hsl(0, 0%, 100%);
+	--light-grayish-violet: hsl(270, 3%, 87%);
+	--dark-grayish-violet: hsl(279, 6%, 55%);
+	--very-dark-violet: hsl(278, 68%, 11%);
+	--default-font-size: clamp(1vw, 18px, 2vw);
+}
+
+body {
+	margin: 0;
+	font-family: "Space Grotesk", sans-serif;
+	font-weight: 500;
+	font-size: var(--default-font-size);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+.container {
+	display: flex;
+}
+
+@media screen and (max-width: 375px) {
+	.container {
+		flex-direction: column;
+		height: 100vh;
+	}
+
+	.bg-main-container {
+		width: 100%;
+		position: relative;
+	}
+}
+
+.card {
+	width: 35%;
+	aspect-ratio: 2/1;
+	border-radius: 4%/8%;
+	z-index: 2;
+}
+
+.bg-main-container {
+	background: url(./images/bg-main-desktop.png), no-repeat;
+	background-size: cover;
+	flex: 1;
+	height: 100vh;
+}
+
+.front-card-info {
+	background: url(./images/bg-card-front.png), no-repeat;
+	background-size: cover;
+	color: white;
+	padding: 0.7em;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	font-size: clamp(0.5vw, 1vw, 5rem);
+	text-align: center;
+	position: absolute;
+	left: 5%;
+	top: 5%;
+}
+
+@media screen and (max-width: 375px) {
+	.front-card-info {
+		top: 55%;
+		width: 70%;
+		z-index: 3;
+		font-size: 2vw;
+	}
+}
+
+.front-card-info p {
+	font-size: 1em;
+}
+
+.front-card-info p#card-number {
+	font-size: 2em;
+}
+
+.front-card-info img {
+	width: 15%;
+	position: absolute;
+	top: 10%;
+	left: 5%;
+}
+
+.front-card-info .bottom-info {
+	display: flex;
+	justify-content: space-around;
+}
+
+.front-card-info .bottom-info p {
+	text-transform: uppercase;
+}
+
+.back-card-info {
+	background: url(./images/bg-card-back.png), no-repeat;
+	background-size: cover;
+	color: white;
+	width: 30%;
+	aspect-ratio: 2/1;
+	position: absolute;
+	left: 10%;
+	top: 50%;
+}
+
+.back-card-info p {
+	position: absolute;
+	top: 50%;
+	right: 10%;
+	transform: translateY(-85%);
+	font-size: 1.2vw;
+}
+
+@media screen and (max-width: 375px) {
+	.back-card-info {
+		width: 70%;
+		left: 25%;
+		top: 10%;
+	}
+
+	.back-card-info p {
+		font-size: 1em;
+	}
+}
+
+.form-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 3;
+	text-transform: uppercase;
+}
+
+.form-container form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.5em;
+	width: 50%;
+	transform: translateX(10%);
+}
+
+form > * {
+	font: inherit;
+}
+
+@media screen and (max-width: 375px) {
+	.form-container form {
+		width: 80%;
+	}
+
+	form > * {
+		font: inherit;
+		font-size: 3vw;
+	}
+}
+
+.form-container form input {
+	appearance: none;
+	border-radius: 2%/25%;
+	padding: 1em;
+	border: 1px solid var(--light-grayish-violet);
+	width: 100%;
+}
+
+.form-container form input::placeholder {
+	color: var(--dark-grayish-violet);
+}
+
+.form-container form button {
+	background-color: var(--very-dark-violet);
+	color: var(--white);
+	padding: 1em;
+	border-radius: 3% / 15%;
+	margin-top: 1em;
+}
+
+.date-cvc-container {
+	display: flex;
+	gap: 1em;
+}
+
+.date-cvc-container > * {
+	gap: 0.5em;
+}
+
+.date-cvc-container .date-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.date-cvc-container .date-container .date-inputs {
+	display: flex;
+	justify-content: flex-start;
+	gap: 0.5em;
+}
+
+.date-cvc-container .date-container .date-inputs input {
+	width: 50%;
+}
+
+.date-cvc-container .cvc-container {
+	align-self: flex-end;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
