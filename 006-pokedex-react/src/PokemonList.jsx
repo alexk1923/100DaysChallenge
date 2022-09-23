@@ -32,7 +32,6 @@ export default function PokemonList({ pokemons, searchedPokemon }) {
 
 			const data = await res.json();
 
-			// console.log(data);
 			console.log("getPokeData from PokemonList");
 			const newStats = {
 				id: data.id,
@@ -44,23 +43,13 @@ export default function PokemonList({ pokemons, searchedPokemon }) {
 			};
 			console.log("newStats from pokemon list: " + newStats);
 			setDetailedStats(newStats);
-			// return newStats;
-			// setDetailedStats(newStats);
 		}
-		// setPokeImg(data.sprites.front_default);
-		// return { id: 1, abilities: [], height: 2, weight: 3, types: [], img: "" };
 	}
 
 	useEffect(() => {
 		console.log("useEffect Pokemon List");
 		getPokeData(detailedInitialPokemon);
 	}, [isDetailed, detailedInitialPokemon]);
-
-	function funcaa(pokemon) {
-		const res = getPokeData(pokemon);
-		setDetailedStats(res);
-		return res;
-	}
 
 	return isDetailed ? (
 		<div className='detailed-container'>
