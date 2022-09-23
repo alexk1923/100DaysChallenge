@@ -26,6 +26,8 @@
 				color: hsl(228, 45%, 44%);
 			}
 		</style>
+
+		<script src="./script.js" defer></script>
 	</head>
 	<body>
 		<div class="container">
@@ -33,31 +35,39 @@
 				<div class="card front-card-info">
 					<img src="./images/card-logo.svg" />
 					<p id="card-number">0000 0000 0000 0000</p>
+
 					<div class="bottom-info">
-						<p>Jane Appleseed</p>
-						<p>00/00</p>
+						<p id="card-name">Jane Appleseed</p>
+						<p id="card-date">00/00</p>
 					</div>
 				</div>
 				<div class="card back-card-info">
-					<p>000</p>
+					<p id="card-cvc">000</p>
 				</div>
 			</div>
 
 			<div class="form-container">
 				<form action="/">
-					<label for="cardholder-name">Cardholder Name</label>
+					<label for="card-name-input">Cardholder Name</label>
 					<input
+						required
 						type="text"
-						name="cardholder-name"
-						id="cardholder-name"
+						name="card-name-input"
+						id="card-name-input"
 						placeholder="e.g. Jane Appleseed"
+						maxlength="35"
 					/>
-					<label for="card-number">Card Number</label>
+					<label for="card-number-input">Card Number</label>
 					<input
-						type="number"
-						name="cardholder-name"
-						id="cardholder-name"
+						required
+						type="text"
+						name="card-number-input"
+						id="card-number-input"
+						autocomplete="cc-number"
+						maxlength="19"
 						placeholder="e.g. 1234 5678 9123 0000"
+						pattern="[0-9\s]{19}"
+						title="Format (DIGITS ONLY): xxxx xxxx xxxx xxxx"
 					/>
 
 					<div class="date-cvc-container">
@@ -65,22 +75,39 @@
 							<label for="exp-date">Exp. Date (MM/YY)</label>
 							<div class="date-inputs">
 								<input
+									required
 									type="text"
 									name="exp-date-month"
 									id="exp-date-month"
 									placeholder="MM"
+									maxlength="2"
+									pattern=".{2}"
+									title="Format: MM. e.g. 03 for March"
 								/>
 								<input
+									required
 									type="text"
 									name="exp-date-year"
 									id="exp-date-year"
 									placeholder="YY"
+									maxlength="2"
+									pattern=".{2}"
+									title="Format: YY. e.g. 25 for 2025"
 								/>
 							</div>
 						</div>
 						<div class="cvc-container">
 							<label for="cvc">CVC</label>
-							<input type="number" name="cvc" id="cvc" placeholder="e.g. 123" />
+							<input
+								required
+								type="text"
+								name="cvc"
+								id="cvc"
+								placeholder="e.g. 123"
+								maxlength="3"
+								pattern=".{3}"
+								title="Last 3 digits on the back of your card"
+							/>
 						</div>
 					</div>
 

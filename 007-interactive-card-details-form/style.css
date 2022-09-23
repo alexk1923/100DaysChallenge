@@ -36,7 +36,7 @@ body {
 }
 
 .card {
-	width: 35%;
+	width: 30%;
 	aspect-ratio: 2/1;
 	border-radius: 4%/8%;
 	z-index: 2;
@@ -102,7 +102,6 @@ body {
 	background: url(./images/bg-card-back.png), no-repeat;
 	background-size: cover;
 	color: white;
-	width: 30%;
 	aspect-ratio: 2/1;
 	position: absolute;
 	left: 10%;
@@ -188,6 +187,10 @@ form > * {
 
 .date-cvc-container > * {
 	gap: 0.5em;
+}
+
+.date-cvc-container input {
+	font: inherit;
 }
 
 .date-cvc-container .date-container {
