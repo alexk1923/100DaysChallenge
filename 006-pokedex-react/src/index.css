@@ -4,6 +4,10 @@
 		monospace;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 @font-face {
 	font-family: "PokeFont";
 	src: url("./font/Pokemon\ Solid.ttf");
@@ -39,8 +43,8 @@ button:hover {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
-	/* justify-content: center; */
 	align-items: center;
+	justify-content: space-evenly;
 }
 
 .pokemon-card {
@@ -48,13 +52,14 @@ button:hover {
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
 		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
 		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-	gap: 0.5em;
+	/* gap: 0.5em; */
 	padding: 0.5em;
+	width: calc(20% - 1em); /* width of every card - gaps */
+	min-width: fit-content;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	transition: all 0.2s ease-in;
-	/* max-height: 10vh; */
 }
 
 .pokemon-card button:hover {
@@ -80,7 +85,6 @@ button:hover {
 	display: flex;
 	background-color: rgba(255, 255, 255, 0.8);
 	width: 50%;
-	/* justify-content: space-evenly; */
 	font-family: var(--normal-font);
 }
 
@@ -110,8 +114,8 @@ button:hover {
 
 .search-container {
 	text-align: center;
-	height: 10vh;
-	max-height: 20vh;
+	height: 20vh;
+	max-height: 30vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -119,7 +123,7 @@ button:hover {
 }
 
 .search-container img {
-	height: 70%;
+	height: 100%;
 	padding: 1em;
 	cursor: pointer;
 }
@@ -200,10 +204,13 @@ span.nav-text {
 }
 
 .loading {
-	position: absolute;
+	position: relative;
 	width: 100%;
+	height: 100vh;
 	top: 0;
 	bottom: 0;
+	left: 0;
+	right: 0;
 	background-color: rgba(0, 0, 0, 0.8);
 	text-align: center;
 	display: flex;

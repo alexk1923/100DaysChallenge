@@ -1,84 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 import { v4 as uuid } from "uuid";
+import { SearchContext } from "./SearchContext";
+
 export default function Pokemon(props) {
 	Pokemon.propTypes = {
 		name: PropTypes.string.isRequired,
 		url: PropTypes.string.isRequired,
-		searchedFilter: PropTypes.string.isRequired,
-		filterDetailed: PropTypes.func.isRequired,
-		detailedStats: PropTypes.shape({
-			id: PropTypes.number,
-			abilities: PropTypes.array,
-			height: PropTypes.number,
-			weight: PropTypes.number,
-			types: PropTypes.array,
-			img: PropTypes.string,
-		}),
 	};
 
 	const [pokeImg, setPokeImg] = useState("");
-	const [showDetailed, setShowDetailed] = useState(false);
+	const [detailedStats, setDetailedStats] = useState({});
+	const [isDetailed, setIsDetailed] = useState(false);
+	const { searchedPokemon, setSearchedPokemon } = useContext(SearchContext);
+	const { showDetailed, setShowDetailed } = useContext(SearchContext);
 
 	useEffect(() => {
-		const controller = new AbortController();
-		const signal = controller.signal;
+		fetchDetailed(isDetailed);
+	}, [isDetailed]);
 
-		(async () => {
-			console.log("Detailed stats din pokeData apelat initial: ");
-			console.log(props);
+	async function fetchDetailed(isDetailed) {
+		console.log("fetch detailed:" + isDetailed);
 
-			const res = await fetch(props.url, signal);
-			if (!res.ok) {
-				throw new Error("Error: " + res);
-			}
+		const res = await fetch(props.url);
+		if (!res.ok) {
+			throw new Error("Error: " + res);
+		}
 
-			const data = await res.json();
-			setPokeImg(data.sprites.front_default);
-			if (props.isDetailed) {
-				// console.log("dadada");
-				setShowDetailed(true);
-			}
-		})();
+		const data = await res.json();
+		const newStats = {
+			id: data.id,
+			abilities: data.abilities,
+			height: data.height,
+			weight: data.weight,
+			types: data.types,
+			img: data.sprites.other.home.front_default,
+		};
+		setPokeImg(data.sprites.front_default);
+		setDetailedStats(newStats);
+		console.log(newStats);
 
-		return () => controller.abort();
-	}, [showDetailed]);
+		if (showDetailed) {
+			console.log("Este detaliat");
+			setIsDetailed(true);
+		}
+	}
 
 	function handleReadMore() {
-		props.filterDetailed(props.name);
-		console.log("Detailed dupa ce s-a apelat filterDetailed: ");
-		console.log(props.detailedStats);
+		setIsDetailed(true);
 		setShowDetailed(true);
-		// setReadMore(true);
+		setSearchedPokemon(props.name);
 	}
 
 	function getHighlightedString() {
-		const matchIndex = props.name.indexOf(props.searchedFilter);
+		const matchIndex = props.name.indexOf(searchedPokemon);
 		const beginNewName = props.name.slice(0, matchIndex);
 		const endNewName = props.name.slice(
-			matchIndex + props.searchedFilter.length,
+			matchIndex + searchedPokemon.length,
 			props.name.length
 		);
 		return (
 			<p>
 				{beginNewName}
-				<span className='highlighted'>{props.searchedFilter}</span>
+				<span className='highlighted'>{searchedPokemon}</span>
 				{endNewName}
 			</p>
 		);
 	}
 
-	return showDetailed ? (
+	return isDetailed ? (
 		<div className='pokemon-detailed-card'>
 			<div className='first-info'>
 				<div className='img-id'>
-					<p>{props.detailedStats.id}</p>
-					<img src={props.detailedStats.img} alt={props.name}></img>
+					<p>{detailedStats.id}</p>
+					<img src={detailedStats.img} alt={props.name}></img>
 				</div>
 				<p>Types:</p>
 				<ul>
-					{props.detailedStats.types.map((elem) => (
+					{detailedStats.types.map((elem) => (
 						<li key={uuid()}>{elem.type.name}</li>
 					))}
 				</ul>
@@ -86,11 +85,11 @@ export default function Pokemon(props) {
 
 			<div className='second-info'>
 				<h1>{props.name}</h1>
-				{props.detailedStats.abilities.map((a) => (
+				{detailedStats.abilities.map((a) => (
 					<p key={uuid()}>{a.ability.name}</p>
 				))}
-				<p>Height: {props.detailedStats.height}</p>
-				<p>Weight: {props.detailedStats.weight}</p>
+				<p>Height: {detailedStats.height}</p>
+				<p>Weight: {detailedStats.weight}</p>
 			</div>
 		</div>
 	) : (

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Pokemon from "./Pokemon";
 import Search from "./Search";
 import PokemonList from "./PokemonList";
 import Navigation from "./Navigation";
@@ -8,10 +7,11 @@ import { SearchContext } from "./SearchContext";
 
 function App() {
 	const [pokemons, setPokemons] = useState([]);
-	const [readMorePokemon, setReadMorePokemon] = useState("");
+	const [showDetailed, setShowDetailed] = useState(false);
 	const [searchedPokemon, setSearchedPokemon] = useState("");
 	const [prevPokemonsURL, setPrevPokemonsURL] = useState(null);
 	const [nextPokemonsURL, setNextPokemonsURL] = useState(null);
+
 	const [currentPokemonsURL, setCurrentPokemonURL] = useState(
 		"https://pokeapi.co/api/v2/pokemon?limit=20&offset=0"
 	);
@@ -34,7 +34,7 @@ function App() {
 
 		// setTimeout(() => {
 		// 	setIsLoading(false);
-		// }, 1000);
+		// }, 100000);
 
 		setIsLoading(false);
 
@@ -47,26 +47,34 @@ function App() {
 	}
 
 	useEffect(() => {
+		console.log("rerender app");
 		fetchAPI(currentPokemonsURL);
 	}, [currentPokemonsURL]);
 
-	function getContent(readMoreName) {
-		const [foundPokemon] = pokemons.filter(
-			(pokemon) => pokemon.name === readMoreName
-		);
-		setPokemons([foundPokemon]);
-	}
+	// function getContent(readMoreName) {
+	// 	const [foundPokemon] = pokemons.filter(
+	// 		(pokemon) => pokemon.name === readMoreName
+	// 	);
+	// 	setPokemons([foundPokemon]);
+	// }
 
 	return (
 		<div className='App'>
 			{isLoading && (
 				<div className='loading'>
 					<h1>Loading...</h1>
-					<img src={Pikachu} />
+					<img src={Pikachu} alt='Bouncing Pikachu' />
 				</div>
 			)}
 
-			<SearchContext.Provider value={{ searchedPokemon, setSearchedPokemon }}>
+			<SearchContext.Provider
+				value={{
+					searchedPokemon,
+					setSearchedPokemon,
+					showDetailed,
+					setShowDetailed,
+				}}
+			>
 				<Search />
 				<PokemonList pokemons={pokemons} searchedPokemon={searchedPokemon} />
 			</SearchContext.Provider>

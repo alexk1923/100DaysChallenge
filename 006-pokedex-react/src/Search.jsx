@@ -1,18 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import pokeballClosed from "./img/pokeball-closed.png";
-import PropTypes from "prop-types";
 import { SearchContext } from "./SearchContext";
 
-export default function Search(props) {
-	Search.propTypes = {
-		inputFilter: PropTypes.func,
-	};
-
+export default function Search() {
 	const { searchedPokemon, setSearchedPokemon } = useContext(SearchContext);
-
 	const [activeSearchBar, setActiveSearchBar] = useState(false);
 	const [rotate, setRotate] = useState("");
-	const [searchValue, setSearchValue] = useState("");
 
 	function handlePokeBallClick() {
 		setActiveSearchBar((prevActiveSearchBar) => !prevActiveSearchBar);
@@ -21,13 +14,7 @@ export default function Search(props) {
 				setRotate("rotateForward");
 			else setRotate("rotateBackwards");
 		});
-		console.log(rotate);
 	}
-
-	// function handleInputChange(e) {
-	// 	const { value: searchValue } = e.target;
-	// 	setSearchedPokemon(searchValue);
-	// }
 
 	return (
 		<div className='search-container'>
