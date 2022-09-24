@@ -11,7 +11,7 @@ export default function PokemonList({ pokemons, searchedPokemon }) {
 	const [detailedInitialPokemon, setDetailedInitialPokemon] = useState({});
 
 	function filterDetailed(detailedPokemonName) {
-		console.log("fILTER FROM POKEMON LIST");
+		// console.log("fILTER FROM POKEMON LIST");
 		setIsDetailed(true);
 
 		setDetailedPokemon(detailedPokemonName);
@@ -41,7 +41,7 @@ export default function PokemonList({ pokemons, searchedPokemon }) {
 				types: data.types,
 				img: data.sprites.other.home.front_default,
 			};
-			console.log("newStats from pokemon list: " + newStats);
+			// console.log("newStats from pokemon list: " + newStats);
 			setDetailedStats(newStats);
 		}
 	}

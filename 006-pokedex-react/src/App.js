@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import Pokemon from "./Pokemon";
 import Search from "./Search";
 import PokemonList from "./PokemonList";
+import Navigation from "./Navigation";
+import Pikachu from "./img/pikachu.png";
 
 function App() {
 	const [pokemons, setPokemons] = useState([]);
@@ -13,14 +14,14 @@ function App() {
 	const [currentPokemonsURL, setCurrentPokemonURL] = useState(
 		"https://pokeapi.co/api/v2/pokemon?limit=20&offset=0"
 	);
+	const [isLoading, setIsLoading] = useState(false);
 
 	function inputFilter(filterName) {
-		// setPokemons(prevPokemons =>
-		//   prevPokemons.filter(pokemon => pokemon.name.includes(filterName)));
 		setSearchedPokemon(filterName);
 	}
 
 	async function fetchAPI(url) {
+		setIsLoading(true);
 		const res = await fetch(url);
 
 		if (!res.ok) {
@@ -29,6 +30,11 @@ function App() {
 
 		const data = await res.json();
 		console.log(data);
+
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 100000);
+
 		setPokemons((prevPokemons) => {
 			return [...data.results];
 		});
@@ -38,14 +44,8 @@ function App() {
 	}
 
 	useEffect(() => {
-		console.log("Use effect app.ks");
 		fetchAPI(currentPokemonsURL);
 	}, [currentPokemonsURL]);
-
-	function showww() {
-		// console.log("searched: " + searchedPokemon);
-		// console.log(pokemons.filter(pokemon => searchedPokemon === "" ));
-	}
 
 	function getContent(readMoreName) {
 		const [foundPokemon] = pokemons.filter(
@@ -54,31 +54,23 @@ function App() {
 		setPokemons([foundPokemon]);
 	}
 
-	function handlePrev() {
-		setCurrentPokemonURL(prevPokemonsURL);
-	}
-
-	function handleNext() {
-		setCurrentPokemonURL(nextPokemonsURL);
-	}
-
 	return (
 		<div className='App'>
+			{isLoading && (
+				<div className='loading'>
+					<h1>Loading...</h1>
+					<img src={Pikachu} />
+				</div>
+			)}
+
 			<Search inputFilter={inputFilter} />
 			<PokemonList pokemons={pokemons} searchedPokemon={searchedPokemon} />
-
-			<div className='navigation'>
-				{prevPokemonsURL !== null && (
-					<button type='button' onClick={handlePrev}>
-						<span className='nav-text'>PREV</span>
-					</button>
-				)}
-				{nextPokemonsURL != null && (
-					<button type='button' onClick={handleNext}>
-						<span className='nav-text'>NEXT</span>
-					</button>
-				)}
-			</div>
+			<Navigation
+				prevPokemonsURL={prevPokemonsURL}
+				nextPokemonsURL={nextPokemonsURL}
+				handlePrev={() => setCurrentPokemonURL(prevPokemonsURL)}
+				handleNext={() => setCurrentPokemonURL(nextPokemonsURL)}
+			/>
 		</div>
 	);
 }
