@@ -31,9 +31,11 @@ function App() {
 		const data = await res.json();
 		console.log(data);
 
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 100000);
+		// setTimeout(() => {
+		// 	setIsLoading(false);
+		// }, 1000);
+
+		setIsLoading(false);
 
 		setPokemons((prevPokemons) => {
 			return [...data.results];

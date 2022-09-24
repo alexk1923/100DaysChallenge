@@ -13,7 +13,6 @@ export default function PokemonList({ pokemons, searchedPokemon }) {
 	function filterDetailed(detailedPokemonName) {
 		// console.log("fILTER FROM POKEMON LIST");
 		setIsDetailed(true);
-
 		setDetailedPokemon(detailedPokemonName);
 		const [found] = pokemons.filter(
 			(pokemon) => pokemon.name === detailedPokemonName

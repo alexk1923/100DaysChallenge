@@ -216,19 +216,36 @@ span.nav-text {
 
 .loading h1 {
 	margin: 0;
+	letter-spacing: 0.1em;
+	animation: color-change 0.7s alternate infinite;
+}
+
+@keyframes color-change {
+	100% {
+		color: #cac531; /* fallback for old browsers */
+		color: -webkit-linear-gradient(
+			to right,
+			#f3f9a7,
+			#cac531
+		); /* Chrome 10-25, Safari 5.1-6 */
+		color: linear-gradient(
+			to right,
+			#f3f9a7,
+			#cac531
+		); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	}
 }
 
 .loading img {
 	width: 15%;
-	animation: jump 0.6s infinite;
+	animation: jump 0.7s alternate infinite;
 }
 
 @keyframes jump {
 	0% {
-		transform: translateY(-10px);
+		transform: translateY(-2vh);
 	}
-
 	100% {
-		transform: translateY(10px);
+		transform: translateY(2vh);
 	}
 }
