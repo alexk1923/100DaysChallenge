@@ -4,6 +4,7 @@ import Search from "./Search";
 import PokemonList from "./PokemonList";
 import Navigation from "./Navigation";
 import Pikachu from "./img/pikachu.png";
+import { SearchContext } from "./SearchContext";
 
 function App() {
 	const [pokemons, setPokemons] = useState([]);
@@ -16,9 +17,9 @@ function App() {
 	);
 	const [isLoading, setIsLoading] = useState(false);
 
-	function inputFilter(filterName) {
-		setSearchedPokemon(filterName);
-	}
+	// function inputFilter(filterName) {
+	// 	setSearchedPokemon(filterName);
+	// }
 
 	async function fetchAPI(url) {
 		setIsLoading(true);
@@ -65,8 +66,10 @@ function App() {
 				</div>
 			)}
 
-			<Search inputFilter={inputFilter} />
-			<PokemonList pokemons={pokemons} searchedPokemon={searchedPokemon} />
+			<SearchContext.Provider value={{ searchedPokemon, setSearchedPokemon }}>
+				<Search />
+				<PokemonList pokemons={pokemons} searchedPokemon={searchedPokemon} />
+			</SearchContext.Provider>
 			<Navigation
 				prevPokemonsURL={prevPokemonsURL}
 				nextPokemonsURL={nextPokemonsURL}

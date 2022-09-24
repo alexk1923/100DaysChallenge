@@ -1,14 +1,15 @@
 import React from "react";
 import Pokemon from "./Pokemon";
 import { v4 as uuid } from "uuid";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { SearchContext } from "./SearchContext";
 
-export default function PokemonList({ pokemons, searchedPokemon }) {
+export default function PokemonList({ pokemons }) {
 	const [isDetailed, setIsDetailed] = useState(false);
 	const [detailedPokemon, setDetailedPokemon] = useState("");
 	const [detailedStats, setDetailedStats] = useState({});
 	const [detailedInitialPokemon, setDetailedInitialPokemon] = useState({});
+	const { searchedPokemon } = useContext(SearchContext);
 
 	function filterDetailed(detailedPokemonName) {
 		// console.log("fILTER FROM POKEMON LIST");
@@ -70,10 +71,7 @@ export default function PokemonList({ pokemons, searchedPokemon }) {
 		<div className='pokemon-container'>
 			{pokemons.length !== 1 ? (
 				pokemons
-					.filter(
-						(pokemon) =>
-							pokemon.name.includes(searchedPokemon) || searchedPokemon === ""
-					)
+					.filter((pokemon) => pokemon.name.indexOf(searchedPokemon) >= 0)
 					.map((pokemon) => (
 						<Pokemon
 							key={uuid()}
