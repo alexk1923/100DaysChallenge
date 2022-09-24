@@ -35,16 +35,6 @@ cvcInput.addEventListener("keyup", (e) => {
     }
 })
 
-// monthInput.addEventListener("input", (e) => {
-//     const cardName = document.getElementById("card-name");
-//     cardName.textContent = e.target.value;
-// })
-
-
-// yearInput.addEventListener("input", (e) => {
-//     const cardDate = document.getElementById("card-date");
-//     cardName.textContent = e.target.value;
-// })
 
 
 console.log(cardNumberInput);
@@ -66,8 +56,6 @@ cardNumberInput.addEventListener("input", (e) => {
         cardNumber.textContent = "0000 0000 0000 0000";
     } else {
         const deleteSpaces = e.target.value.replaceAll(' ', '');
-        console.log("delete spaces: " + deleteSpaces);
-        console.log("delete spaces length: " + deleteSpaces.length);
 
         if (deleteSpaces.length > 16) {
             alert("Eroare");
@@ -85,14 +73,19 @@ cardNumberInput.addEventListener("input", (e) => {
 
 // Delete added spaces in case of backspace
 cardNumberInput.addEventListener("keydown", (e) => {
-    console.log("e target value: " + e.target.value);
     const cardNumber = document.getElementById("card-number");
     const inputLength = cardNumberInput.value.length;
 
-    console.log("inpLength: " + inputLength);
     if (e.key == "Backspace" && cardNumberInput.value.charAt(inputLength - 1) === " ") {
-        console.log("stergem spatiu");
         cardNumberInput.value = cardNumberInput.value.slice(0, inputLength - 1);
     }
 })
 
+const form = document.getElementById("card-submit");
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const successForm = document.querySelector('form#success-form');
+    const submitForm = document.querySelector('form#card-submit');
+    successForm.style.display = 'flex';
+    submitForm.style.display = 'none'
+});

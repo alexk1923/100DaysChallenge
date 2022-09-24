@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap");
 
 :root {
-	--white: hsl(0, 0%, 100%);
-	--light-grayish-violet: hsl(270, 3%, 87%);
-	--dark-grayish-violet: hsl(279, 6%, 55%);
-	--very-dark-violet: hsl(278, 68%, 11%);
+	--white: rgb(255, 255, 255);
+	--light-grayish-violet: rgb(222, 221, 223);
+	--dark-grayish-violet: rgb(142, 133, 147);
+	--very-dark-violet: rgb(33, 9, 47);
+	--dark-violet: rgba(33, 9, 47, 0.9);
 	--default-font-size: clamp(1vw, 18px, 2vw);
 }
 
@@ -13,6 +14,10 @@ body {
 	font-family: "Space Grotesk", sans-serif;
 	font-weight: 500;
 	font-size: var(--default-font-size);
+}
+
+form > * {
+	font: inherit;
 }
 
 * {
@@ -38,6 +43,7 @@ body {
 .card {
 	width: 30%;
 	aspect-ratio: 2/1;
+	min-width: 20vh;
 	border-radius: 4%/8%;
 	z-index: 2;
 }
@@ -112,7 +118,7 @@ body {
 	position: absolute;
 	top: 50%;
 	right: 10%;
-	transform: translateY(-85%);
+	transform: translateY(-15%);
 	font-size: 1.2vw;
 }
 
@@ -136,7 +142,7 @@ body {
 	text-transform: uppercase;
 }
 
-.form-container form {
+.form-container form#card-submit {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -145,22 +151,18 @@ body {
 	transform: translateX(10%);
 }
 
-form > * {
-	font: inherit;
-}
-
 @media screen and (max-width: 375px) {
-	.form-container form {
+	.form-container form#card-submit {
 		width: 80%;
 	}
 
-	form > * {
+	form#card-submit > * {
 		font: inherit;
 		font-size: 3vw;
 	}
 }
 
-.form-container form input {
+.form-container form#card-submit input {
 	appearance: none;
 	border-radius: 2%/25%;
 	padding: 1em;
@@ -168,16 +170,24 @@ form > * {
 	width: 100%;
 }
 
-.form-container form input::placeholder {
+.form-container form#card-submit input::placeholder {
 	color: var(--dark-grayish-violet);
 }
 
-.form-container form button {
+.form-container form#card-submit button {
 	background-color: var(--very-dark-violet);
 	color: var(--white);
 	padding: 1em;
 	border-radius: 3% / 15%;
 	margin-top: 1em;
+}
+
+.form-container form#card-submit button:hover,
+.form-container form#card-submit button:focus-visible {
+	scale: 1.05;
+	cursor: pointer;
+	background-color: var(--dark-violet);
+	border: 2px solid var(--dark-grayish-violet);
 }
 
 .date-cvc-container {
@@ -214,4 +224,56 @@ form > * {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+}
+
+.form-container form#success-form {
+	flex: 1;
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	align-items: center;
+}
+
+.form-container form#success-form img {
+	width: 5%;
+	margin-bottom: 1em;
+}
+
+.form-container form#success-form button {
+	background-color: var(--very-dark-violet);
+	color: var(--white);
+	padding: 1em;
+	border-radius: 3% / 15%;
+	margin-top: 1em;
+	width: 25%;
+	min-width: fit-content;
+	text-align: center;
+}
+
+.form-container form#success-form h1,
+p {
+	margin: 0;
+}
+
+.form-container form#success-form h1 {
+	font-size: 2em;
+	letter-spacing: 0.2em;
+}
+
+.form-container form#success-form p {
+	color: var(--dark-grayish-violet);
+	text-transform: none;
+}
+
+@media screen and (max-width: 375px) {
+	.form-container form#success-form img {
+		width: 25%;
+		aspect-ratio: 1/1;
+	}
+
+	form#success-form > * {
+		font: inherit;
+		font-size: 2em;
+	}
 }
