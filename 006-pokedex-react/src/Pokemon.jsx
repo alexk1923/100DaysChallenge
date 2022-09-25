@@ -17,46 +17,41 @@ export default function Pokemon(props) {
 
 	useEffect(() => {
 		console.log("rerender POKEMON:");
-		console.log("isDetailed:" + isDetailed);
-		console.log("showDetailed:" + showDetailed);
 	}, []);
 
 	useEffect(() => {
 		// s-ar putea sa ramana falsa din cauza ca se rerandeaza PokemonList
 		// PokemonList se rerandeaza din cauza ca showDetailed care e in context isi schimba valoarea
-		console.log(
-			"S-a schimbat shhowDetailed si acum are valoarea:" + showDetailed
-		);
-		fetchDetailed(showDetailed);
-	}, [showDetailed]);
+		// console.log(
+		// 	"S-a schimbat shhowDetailed si acum are valoarea:" + showDetailed
+		// );
 
-	async function fetchDetailed(isDetailed) {
-		console.log("fetch detailed:" + isDetailed);
+		async function fetchDetailed(isDetailed) {
+			const res = await fetch(props.url);
+			if (!res.ok) {
+				throw new Error("Error: " + res);
+			}
 
-		const res = await fetch(props.url);
-		if (!res.ok) {
-			throw new Error("Error: " + res);
+			const data = await res.json();
+			const newStats = {
+				id: data.id,
+				abilities: data.abilities,
+				height: data.height,
+				weight: data.weight,
+				types: data.types,
+				img: data.sprites.other.home.front_default,
+			};
+
+			setPokeImg(data.sprites.front_default);
+			setDetailedStats(newStats);
+
+			if (showDetailed) {
+				setIsDetailed(true);
+			}
 		}
 
-		const data = await res.json();
-		const newStats = {
-			id: data.id,
-			abilities: data.abilities,
-			height: data.height,
-			weight: data.weight,
-			types: data.types,
-			img: data.sprites.other.home.front_default,
-		};
-
-		setPokeImg(data.sprites.front_default);
-		setDetailedStats(newStats);
-		// console.log(newStats);
-
-		if (showDetailed) {
-			console.log("Este detaliat");
-			setIsDetailed(true);
-		}
-	}
+		fetchDetailed();
+	}, [showDetailed, props.url]);
 
 	function handleReadMore() {
 		setSearchedPokemon(props.name);
@@ -92,7 +87,9 @@ export default function Pokemon(props) {
 						<img src={detailedStats.img} alt={props.name}></img>
 					</div>
 				</div>
-				<p>Types:</p>
+				<p>
+					<strong>Types:</strong>
+				</p>
 				<ul>
 					{detailedStats.types.map((elem) => (
 						<li key={uuid()}>{elem.type.name}</li>

@@ -1,12 +1,12 @@
 import React from "react";
-import PropTypes, { string } from "prop-types";
+import PropTypes from "prop-types";
 
 export default function Navigation(props) {
 	Navigation.propTypes = {
-		prevPokemonsURL: PropTypes.string,
-		nextPokemonsURL: PropTypes.string,
-		handlePrev: PropTypes.func,
-		handleNext: PropTypes.func,
+		prevPokemonsURL: PropTypes.string.isRequired,
+		nextPokemonsURL: PropTypes.string.isRequired,
+		handlePrev: PropTypes.func.isRequired,
+		handleNext: PropTypes.func.isRequired,
 	};
 
 	function handleNewPokemons(handleType) {

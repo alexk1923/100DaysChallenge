@@ -17,10 +17,6 @@ function App() {
 	);
 	const [isLoading, setIsLoading] = useState(false);
 
-	// function inputFilter(filterName) {
-	// 	setSearchedPokemon(filterName);
-	// }
-
 	async function fetchAPI(url) {
 		const res = await fetch(url);
 		setIsLoading(true);
@@ -31,9 +27,16 @@ function App() {
 		const data = await res.json();
 		console.log(data);
 
-		// setTimeout(() => {
-		// 	setIsLoading(false);
-		// }, 100000);
+		/* Uncomment to test Loading Screen */
+
+		/*
+		setTimeout(() => {
+			setIsLoading(false);
+		}, 100000);
+		*/
+
+		/* Comment line below to test Loading Screen */
+		setIsLoading(false);
 
 		setPokemons((prevPokemons) => {
 			return [...data.results];
@@ -41,21 +44,12 @@ function App() {
 
 		setNextPokemonsURL(data.next);
 		setPrevPokemonsURL(data.previous);
-		setIsLoading(false);
 	}
 
 	useEffect(() => {
 		console.log("rerender app");
-
 		fetchAPI(currentPokemonsURL);
 	}, [currentPokemonsURL]);
-
-	// function getContent(readMoreName) {
-	// 	const [foundPokemon] = pokemons.filter(
-	// 		(pokemon) => pokemon.name === readMoreName
-	// 	);
-	// 	setPokemons([foundPokemon]);
-	// }
 
 	return (
 		<div className='App'>

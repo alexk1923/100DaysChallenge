@@ -4,7 +4,7 @@ import { SearchContext } from "./SearchContext";
 
 export default function Search() {
 	const { searchedPokemon, setSearchedPokemon } = useContext(SearchContext);
-	const { showDetailed, setShowDetailed } = useContext(SearchContext);
+	const { showDetailed } = useContext(SearchContext);
 	const [activeSearchBar, setActiveSearchBar] = useState(false);
 	const [rotate, setRotate] = useState("");
 
@@ -15,6 +15,13 @@ export default function Search() {
 				setRotate("rotateForward");
 			else setRotate("rotateBackwards");
 		});
+	}
+
+	/* Get any string and format to be capitalized */
+	function formatString(str) {
+		const formattedString = str.toLowerCase();
+		console.log("formatted String:" + formattedString);
+		return formattedString;
 	}
 
 	return (
@@ -32,7 +39,7 @@ export default function Search() {
 						name='pokemon-search'
 						value={searchedPokemon}
 						placeholder='Search a pokemon'
-						onChange={(e) => setSearchedPokemon(e.target.value)}
+						onChange={(e) => setSearchedPokemon(formatString(e.target.value))}
 					></input>
 				)}
 			</div>
