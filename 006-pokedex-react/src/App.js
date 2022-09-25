@@ -22,9 +22,8 @@ function App() {
 	// }
 
 	async function fetchAPI(url) {
-		setIsLoading(true);
 		const res = await fetch(url);
-
+		setIsLoading(true);
 		if (!res.ok) {
 			throw new Error("Error: " + res);
 		}
@@ -36,18 +35,18 @@ function App() {
 		// 	setIsLoading(false);
 		// }, 100000);
 
-		setIsLoading(false);
-
 		setPokemons((prevPokemons) => {
 			return [...data.results];
 		});
 
 		setNextPokemonsURL(data.next);
 		setPrevPokemonsURL(data.previous);
+		setIsLoading(false);
 	}
 
 	useEffect(() => {
 		console.log("rerender app");
+
 		fetchAPI(currentPokemonsURL);
 	}, [currentPokemonsURL]);
 
@@ -78,12 +77,14 @@ function App() {
 				<Search />
 				<PokemonList pokemons={pokemons} searchedPokemon={searchedPokemon} />
 			</SearchContext.Provider>
-			<Navigation
-				prevPokemonsURL={prevPokemonsURL}
-				nextPokemonsURL={nextPokemonsURL}
-				handlePrev={() => setCurrentPokemonURL(prevPokemonsURL)}
-				handleNext={() => setCurrentPokemonURL(nextPokemonsURL)}
-			/>
+			{!showDetailed && (
+				<Navigation
+					prevPokemonsURL={prevPokemonsURL}
+					nextPokemonsURL={nextPokemonsURL}
+					handlePrev={() => setCurrentPokemonURL(prevPokemonsURL)}
+					handleNext={() => setCurrentPokemonURL(nextPokemonsURL)}
+				/>
+			)}
 		</div>
 	);
 }

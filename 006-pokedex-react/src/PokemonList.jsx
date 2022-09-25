@@ -20,6 +20,10 @@ export default function PokemonList({ pokemons }) {
 		console.log("rerender pokemon list");
 	});
 
+	useEffect(() => {
+		console.log("s-a schimbat showDetailed in pokemon list");
+	}, [showDetailed]);
+
 	return showDetailed ? (
 		<div className='detailed-container'>{filterPokemons(searchedPokemon)}</div>
 	) : (

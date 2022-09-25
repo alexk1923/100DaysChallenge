@@ -2,6 +2,9 @@
 	--primary-color: rgb(246, 221, 130);
 	--normal-font: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
+	--card-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 * {
@@ -34,6 +37,10 @@ button {
 	transition: scale 0.2s ease-in-out;
 }
 
+ul {
+	list-style-image: url("./img/pokeball-list-icon.png");
+}
+
 button:hover {
 	scale: 1.1;
 	cursor: pointer;
@@ -49,9 +56,7 @@ button:hover {
 
 .pokemon-card {
 	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-		rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-		rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+	box-shadow: var(--card-shadow);
 	/* gap: 0.5em; */
 	padding: 0.5em;
 	width: calc(20% - 1em); /* width of every card - gaps */
@@ -79,13 +84,23 @@ button:hover {
 .detailed-container {
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .pokemon-detailed-card {
 	display: flex;
 	background-color: rgba(255, 255, 255, 0.8);
-	width: 50%;
 	font-family: var(--normal-font);
+	animation: background-change 5s infinite alternate;
+	box-shadow: var(--card-shadow);
+}
+
+.pokemon-detailed-card p {
+	margin-left: 1em;
 }
 
 .pokemon-detailed-card .first-info {
@@ -97,15 +112,31 @@ button:hover {
 .pokemon-detailed-card .first-info .img-id {
 	display: flex;
 	align-items: center;
+	border: 0.2em solid red;
+	border-radius: 5%/5%;
+	margin: 0.3em;
+}
+
+.pokemon-detailed-card .first-info .img-id img {
+	width: 100%;
 }
 
 .pokemon-detailed-card .first-info .img-id p {
 	align-self: flex-start;
+	flex: 1;
 }
 .pokemon-detailed-card .second-info {
-	flex: 4;
+	flex: 2;
 	display: flex;
 	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+}
+
+.pokemon-detailed-card .second-info h1 {
+	text-align: center;
+	align-self: center;
+	text-transform: uppercase;
 }
 
 .pokemon-detailed-card img {
@@ -240,6 +271,16 @@ span.nav-text {
 			#f3f9a7,
 			#cac531
 		); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	}
+}
+
+@keyframes background-change {
+	0% {
+		background-color: rgba(255, 255, 255, 0.9);
+	}
+
+	100% {
+		background-color: rgba(255, 255, 255, 0.7); /* fallback for old browsers */
 	}
 }
 
